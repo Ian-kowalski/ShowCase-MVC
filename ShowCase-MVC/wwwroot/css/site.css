@@ -1,0 +1,59 @@
+@import"nav.css";
+@import "svg.css";
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background: var(--bg-main);
+    color: var(--text-primary);
+}
+
+:root {
+    font-size: 16px;
+    font-family: 'Open Sans';
+    --bg-main: #ffffff;
+    --text-primary: #1f1f1f;
+    --text-secondary: #000000;
+    --bg-primary: #cecece;
+    --bg-secondary: #e4e4e4;
+    --ac-primary: #50ed81;
+    --ac-primary-hover: #3dac7c;
+    --ac-secondary: #0ed87d;
+    --ac-secondary-hover: #08ae74;
+    --text-ac-primary: #292525;
+    --transition-speed: 600ms;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-main: #23232e;
+        --text-primary: #b6b6b6;
+        --text-secondary: #ececec;
+        --bg-primary: #363643;
+        --bg-secondary: #2e2e36;
+        --ac-primary: #FF00EE;
+        --ac-primary-hover: #810979;
+        --ac-secondary: #ef71e6;
+        --ac-secondary-hover: #743970;
+        --text-ac-primary: #292525;
+    }
+}
+  

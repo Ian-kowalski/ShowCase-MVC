@@ -1,0 +1,9 @@
+﻿
+@{
+    ViewData["Title"] = "Admin";
+}
+
+@if (User.IsInRole("Administrator"))
+{
+    <h1>hi Admin</h1>
+}
