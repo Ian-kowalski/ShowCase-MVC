@@ -13,5 +13,3 @@ jobs:
         run: dotnet build
       - name: Publish application
         run: dotnet publish -c Release -o publish/
-      - name: Copy files to server
-        uses: appleboy/scp-action@main
