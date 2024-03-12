@@ -15,9 +15,3 @@ jobs:
         run: dotnet publish -c Release -o publish/
       - name: Copy files to server
         uses: appleboy/scp-action@main
-        whith:
-                 host: ${{ env.SERVER_IP }}
-                 username: ${{ env.USERNAME }}
-           key: ${{ secrets.SERVER_KEY }}
-           source: publish/
-           target: ${{ env.REMOTE_DIRECTORY }}
