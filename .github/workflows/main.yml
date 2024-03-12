@@ -1,6 +1,10 @@
 name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
+env:
+  SEVER_IP: <server-ip>
+  USERNAME: <username>
+  REMOTE_DIRECTORY: <remote-directory>
 jobs:
   Explore-GitHub-Actions:
     runs-on: windows-latest
@@ -13,3 +17,11 @@ jobs:
         run: dotnet build
       - name: Publish application
         run: dotnet publish -c Release -o publish/
+      - name: Copy files to server
+        uses: appleboy/scp-action@main
+        with:
+               host: ${{ env.SERVER_IP }}
+               username: ${{ env.USERNAME }}
+           key: ${{ secrets.SERVER_KEY }}
+           source: publish/
+           target: ${{ env.REMOTE_DIRECTORY }}
