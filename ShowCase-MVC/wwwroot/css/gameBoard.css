@@ -1,0 +1,57 @@
+.gameboard {
+    aspect-ratio: 1/1;
+    display: grid;
+    grid-template-columns: repeat(12, 4.6vmin); 
+    grid-template-rows: repeat(12, 4.6vmin); 
+    border:3px solid #6da2f3;
+    border-radius: 8.333333333%;
+    overflow: hidden;
+    background-color: #6da2f3;
+}
+
+.gridsqaure {
+    height: 50%;
+    width: 50%;
+    padding: 25%;
+    background-color: #6da2f3;
+    border: 1px solid #ffffff33;
+}
+
+.dragover {
+    background-color: #ec2828;
+}
+
+.BoardBorder {
+    height: 50%;
+    width: 50%;
+    padding: 25%;
+    background-color: #29313f;
+}
+
+.text{
+    display: flex;
+    margin: 0px;
+    justify-content: center;
+    font-size: 2.5vmin;
+    color: white;
+}
+
+.hitMarker{
+    display: none;
+    margin: 0px;
+
+    justify-content: center;
+    font-size: 75%;
+    
+}
+
+.miss{
+    display: flex;
+    color: white;
+}
+
+.hit{
+    display: flex;
+    color: red;
+}
+

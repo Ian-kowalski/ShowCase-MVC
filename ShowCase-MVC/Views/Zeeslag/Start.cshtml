@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Start";
+}
+<style>
+    .game-title {
+        font-family: Inter, sans-serif;
+        border-radius: 600px;
+        background-color: #d9d9d9;
+        color: #000;
+        white-space: nowrap;
+        padding: 29px 60px;
+        margin: 0 auto;
+        width: fit-content;
+    }
+
+    .game-options {
+        border-radius: 16px;
+        background-color: #d9d9d9;
+        color: #fff;
+        padding: 28px 36px;
+        margin-top: 166px;
+    }
+
+    .join-game-btn,
+    .create-game-btn {
+        font-family: Inter, sans-serif;
+        border-radius: 16px;
+        background-color: #757373;
+        padding: 21px 60px;
+        cursor: pointer;
+    }
+
+    .create-game-btn {
+        margin-top: 26px;
+        padding: 23px 49px;
+    }
+
+    .game-container {
+        background-color: #fff;
+        max-width: 360px;
+        font-size: 24px;
+        font-weight: 600;
+        text-align: center;
+        padding: 79px 20px;
+        margin: 0 auto;
+    }
+</style>
+
+
+<h1 class="game-title">Zeeslag</h1>
+<section class="game-options">
+    <form class="form-inline" asp-area="" asp-controller="Zeeslag" asp-action="LobbySelect">
+        <button class="join-game-btn">Join Game</button>
+    </form>
+    <form class="form-inline" asp-area="" asp-controller="Zeeslag" asp-action="Lobby">
+        <button class="create-game-btn">Create Game</button>
+    </form>
+        
+</section>
+
+
+
+
+

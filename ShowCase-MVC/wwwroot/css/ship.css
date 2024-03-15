@@ -1,0 +1,38 @@
+.ship {
+    display: flex;
+    flex-direction: row;
+    height: min-content;
+    border-radius: 2vmin;
+}
+
+.dragging {
+    opacity: 0.5;
+}
+
+.ship-vertical {
+    flex-direction: column;
+}
+
+.section{
+    aspect-ratio: 1/1;
+    width: calc(4.6vmin);
+    background-color: lightgray;
+}
+
+.end{
+    border-radius: 0vmin 2vmin 2vmin 0vmin;
+}
+
+.frond{
+    border-radius: 2vmin 0vmin 0vmin 2vmin;
+}
+
+.end.section-vertical{
+    border-radius:  0vmin 0vmin 2vmin 2vmin;
+}
+
+.frond.section-vertical{
+    border-radius: 2vmin 2vmin 0vmin 0vmin;
+}
+
+

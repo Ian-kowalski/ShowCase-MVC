@@ -1,0 +1,11 @@
+game-board{
+    display: flex;
+    justify-content: center;
+}
+
+ship-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    gap: 10px;
+}

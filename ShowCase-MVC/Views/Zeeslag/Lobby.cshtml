@@ -1,0 +1,135 @@
+﻿
+@{
+    ViewData["Title"] = "Lobby";
+}
+
+<style>
+    .lobby-settings {
+        display: flex;
+        align-self: flex-end;
+        gap: 7px;
+        font-size: 11px;
+        font-family: Inter, sans-serif;
+        font-weight: 600;
+        color: #000;
+        text-align: center;
+    }
+
+    .lobby-settings__title {
+        margin: auto 0;
+        flex-grow: 1;
+    }
+
+    .lobby-settings__icon {
+        width: 29px;
+        aspect-ratio: 0.88;
+        object-fit: contain;
+        object-position: center;
+        fill: #d9d9d9;
+    }
+
+    .game-lobby {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 360px;
+        padding: 13px 24px 27px;
+        background-color: #fff;
+    }
+
+    .game-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 80px;
+        border-radius: 600px;
+        background-color: #d9d9d9;
+    }
+
+    .game-title {
+        font-size: 24px;
+        font-family: Inter, sans-serif;
+    }
+
+    .game-name {
+        margin-top: 4px;
+        font-size: 15px;
+        font-family: Inter, sans-serif;
+    }
+
+    .player-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 18px;
+        padding: 16px 80px;
+        border-radius: 16px;
+        background-color: #d9d9d9;
+        font-size: 24px;
+        font-family: Inter, sans-serif;
+    }
+
+    .player-name {
+        font-family: Inter, sans-serif;
+    }
+
+    .player-separator {
+        margin-top: 225px;
+        font-family: Inter, sans-serif;
+    }
+
+    .opponent-name {
+        margin-top: 220px;
+        font-family: Inter, sans-serif;
+    }
+
+    .start-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-self: center;
+        width: 100%;
+        max-width: 249px;
+        margin-top: 17px;
+        padding: 12px 60px;
+        border-radius: 16px;
+        background-color: #757373;
+        color: #fff;
+        font-size: 20px;
+        font-family: Inter, sans-serif;
+    }
+
+    .waiting-message {
+        align-self: flex-start;
+        margin-left: 37px;
+        font-size: 11px;
+        font-family: Inter, sans-serif;
+    }
+</style>
+
+<section class="game-lobby">
+    <div class="lobby-settings">
+        <h2 class="lobby-settings__title">lobby settings</h2>
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/e1ff35c5c24e22a1e754875ce296b30d5c9bb50d146a0599bf5a7a8962939596?apiKey=d6fdb3b4e7b941dfb8db28fec07e9efa&" alt="" class="lobby-settings__icon" />
+    </div>
+
+    <header class="game-header">
+        <h1 class="game-title">Game lobby</h1>
+        <p class="game-name">gameName</p>
+    </header>
+
+    <section class="player-section">
+        <p class="player-name">User name</p>
+        <p class="player-separator">VS</p>
+        <p class="opponent-name">User name</p>
+    </section>
+
+    <form class="form-inline" asp-area="" asp-controller="Zeeslag" asp-action="Zeeslag">
+        <button class="start-button">start Game</button
+    </form>
+
+    >
+
+    <p class="waiting-message">waiting for User Name ...</p>
+</section>
+

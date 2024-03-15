@@ -1,0 +1,105 @@
+﻿
+@{
+    ViewData["Title"] = "lobbySelect";
+}
+<style>
+    .join-game {
+        background-color: #fff;
+        display: flex;
+        max-width: 360px;
+        flex-direction: column;
+        color: #000;
+        font-weight: 600;
+        text-align: center;
+        padding: 78px 20px 26px;
+    }
+
+    .join-game-button {
+        border-radius: 600px;
+        background-color: #d9d9d9;
+        align-self: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 29px 60px;
+        font: 24px Inter, sans-serif;
+    }
+
+    .game-list {
+        border-radius: 16px;
+        background-color: #d9d9d9;
+        display: flex;
+        margin-top: 16px;
+        width: 100%;
+        flex-direction: column;
+        white-space: nowrap;
+        padding: 8px 9px 80px;
+    }
+
+    .game-list-header {
+        border-radius: 16px 16px 0px 0px;
+        background-color: #757373;
+        display: flex;
+        gap: 20px;
+        color: #fff;
+        justify-content: space-between;
+        padding: 14px 17px;
+    }
+
+    .game-list-title {
+        font: 20px Inter, sans-serif;
+    }
+
+    .game-list-instance {
+        margin: auto 0;
+        font: 15px Inter, sans-serif;
+    }
+
+    .game-item {
+        background-color: #a0a0a0;
+        display: flex;
+        gap: 20px;
+        font-size: 12px;
+        justify-content: space-between;
+        padding: 16px 11px;
+    }
+
+    .game-name {
+        font-family: Inter, sans-serif;
+    }
+
+    .game-visibility {
+        font-family: Inter, sans-serif;
+    }
+</style>
+
+
+    <h1 class="join-game-button">Join Game</h1>
+    <section class="game-list">
+        <header class="game-list-header">
+            <h2 class="game-list-title">Name</h2>
+            <span class="game-list-instance">Instance</span>
+        </header>
+        <article class="game-item">
+            <span class="game-name">gameName</span>
+            <span class="game-visibility">public</span>
+        </article>
+        <article class="game-item">
+            <span class="game-name">gameName</span>
+            <span class="game-visibility">public</span>
+        </article>
+        <article class="game-item">
+            <span class="game-name">gameName</span>
+            <span class="game-visibility">public</span>
+        </article>
+        <article class="game-item">
+            <span class="game-name">gameName</span>
+            <span class="game-visibility">private</span>
+        </article>
+        <article class="game-item">
+            <span class="game-name">gameName</span>
+            <span class="game-visibility">private</span>
+        </article>
+    </section>
+
+

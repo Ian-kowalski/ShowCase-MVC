@@ -2,7 +2,10 @@
     ViewData["Title"] = "Home Page";
 }
 
-<partial name="_personalia" />
+
+<div class="personalia">
+    <partial name="_personalia" />
+</div>
 
 <section class="profile">
     <h2 class="profile-__title">
@@ -31,8 +34,17 @@
             </skils>
 
 
-            <education class="profile-content__category">
+            <education class="profile-content__category">           
                 <h3 class="profile-content__category-title">Opleidingen</h3>
+
+                <div class="profile-content__element">
+                    <div class="profile-content__element-header">
+                        <p class="profile-content__title">ICT</p>
+                        <p class="profile-content__period">sep 2022 - nu</p>
+                    </div>
+                    <p class="profile-content__institute">Windesheim, Zwolle</p>
+                </div>
+
 
                 <div class="profile-content__element">
                     <div class="profile-content__element-header">
@@ -50,14 +62,9 @@
                     <p class="profile-content__institute">saxion, Enschede</p>
                 </div>
 
-                <div class="profile-content__element">
-                    <div class="profile-content__element-header">
-                        <p class="profile-content__title">ICT</p>
-                        <p class="profile-content__period">sep 2022 - nu</p>
-                    </div>
-                    <p class="profile-content__institute">Windesheim, Zwolle</p>
-                </div>
+
                 <hr>
             </education>
         </section>
 </section>
+<link rel="stylesheet" href="~/css/cv.css" asp-append-version="true" />

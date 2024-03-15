@@ -2,7 +2,9 @@
 @{
     ViewData["Title"] = "Contact";
 }
-<partial name="_personalia" />
+<div class="personalia hide">
+    <partial name="_personalia" />
+</div>
 
 <form class="contact-form" id="contact-form">
     <h3>Stuur mij een bericht</h3>
@@ -48,6 +50,7 @@
 
 
     <button id="sendButton">
+        <link rel="stylesheet" href="~/css/sendButton.css" asp-append-version="true" />
         <span class="text">verzend</span>
         <span class="sendIcon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
@@ -90,4 +93,9 @@
     </button>
     <span class="error" aria-live="polite"></span>
 </form>
+
+<script type="module" src="~/js/scripts/apis/api.js"></script>
+
+<link rel="stylesheet" href="~/css/contact.css" asp-append-version="true" />
+
 
