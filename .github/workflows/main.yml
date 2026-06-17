@@ -1,27 +1,27 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
-env:
-  SEVER_IP: <server-ip>
-  USERNAME: <username>
-  REMOTE_DIRECTORY: <remote-directory>
+name: CI
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
 jobs:
-  Explore-GitHub-Actions:
-    runs-on: windows-latest
+  build-and-test:
+    runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      
-      - name: Build .NET App
-        run: dotnet build
-      - name: Publish application
-        run: dotnet publish -c Release -o publish/
-      - name: Copy files to server
-        uses: appleboy/scp-action@main
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
-               host: ${{ env.SERVER_IP }}
-               username: ${{ env.USERNAME }}
-           key: ${{ secrets.SERVER_KEY }}
-           source: publish/
-           target: ${{ env.REMOTE_DIRECTORY }}
+          dotnet-version: "8.0.x"
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore -c Release
+
+      - name: Test
+        run: dotnet test
