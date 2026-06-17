@@ -120,7 +120,7 @@ sendButton.addEventListener("click", async (event) => {
             grecaptcha.execute('6LfSDHgpAAAAAK_I_INXeLkkkIhYWS__b4akWAkE', { action: 'submit' }).then(async function (token) {
                 const formSubmit = document.getElementById('submit');
                 try {
-                    const response = await fetch('https://localhost:7078/api/Captcha', {
+                    const response = await fetch('/api/Captcha', {
                         method: "POST",
                         body: JSON.stringify({
                             response: token
@@ -134,7 +134,7 @@ sendButton.addEventListener("click", async (event) => {
 
                     if (result.score > 0.8) {
                         try {
-                            let response = await fetch('https://localhost:7078/api/Contact', {
+                            let response = await fetch('/api/Contact', {
                                 method: 'POST',
                                 body: JSON.stringify({
                                     email: email.value,
