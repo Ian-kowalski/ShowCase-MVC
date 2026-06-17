@@ -14,12 +14,10 @@
     height: 1rem;
 }
 
-.hide {
-    .profile-content__personalia{
-        display: none;
-    }
-
+.hide .profile-content__personalia {
+    display: none;
 }
+
 
 .person-logo {
     border: 4px solid var(--ac-primary);

@@ -4,35 +4,35 @@
     margin: 0 1rem 0;
 }
 
-label {
+.contact-form label {
     flex-direction: row;
     width: 100%;
     margin-bottom: 1rem;
 }
 
-input {
+.contact-form input {
     border: 3px solid var(--bg-primary);
     font-family: inherit;
     font-size: 90%;
     width: 100%;
 }
 
-    input:focus {
+    .contact-form input:focus {
         border: 4px solid var(--ac-primary);
     }
 
-textarea {
+.contact-form textarea {
     border: 3px solid var(--bg-primary);
     height: 10rem;
     width: 100%;
 }
 
-    textarea:focus {
+    .contact-form textarea:focus {
         border: 4px solid var(--ac-primary);
     }
 
 /* This is the style of our error messages */
-.error {
+.contact-form .error {
     width: 100%;
     padding: 0;
     font-size: 80%;
@@ -40,7 +40,7 @@ textarea {
     box-sizing: border-box;
 }
 
-    .error.active {
+    .contact-form .error.active {
         display: block;
     }
 
@@ -49,7 +49,7 @@ textarea {
     top: 1rem !important;
 }
 
-input[type = "submit"] {
+.contact-form input[type = "submit"] {
     background-color: var(--ac-primary);
     padding: 10px;
     border-radius: 10px;
@@ -57,13 +57,13 @@ input[type = "submit"] {
     color: var(--text-primary);
 }
 
-    input[type = "submit"]:hover {
+    .contact-form input[type = "submit"]:hover {
         background-color: var(--ac-primary-hover);
     }
 
 /* Large screens */
 @media only screen and (min-width: 600px) {
-    form {
+    .contact-form {
         display: flex;
         flex-direction: column;
         margin: 0 1rem 0;

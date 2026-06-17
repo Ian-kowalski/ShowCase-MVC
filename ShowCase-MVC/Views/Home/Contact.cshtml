@@ -10,25 +10,25 @@
     <h3>Stuur mij een bericht</h3>
     <label for="firstname">
         naam
-        <input type="text" name="firstname" id="firstname" required placeholder="john" autocomplete="name" required maxlength="60" minlength="1" />
+        <input type="text" name="firstname" id="firstname" required placeholder="john" autocomplete="name" maxlength="60" minlength="1" />
         <span class="error" aria-live="polite"></span>
     </label>
 
     <label for="lastname">
         achternaam
-        <input type="text" name="lastname" id="lastname" required placeholder="doe" autocomplete="family-name" required maxlength="60" minlength="1" />
+        <input type="text" name="lastname" id="lastname" required placeholder="doe" autocomplete="family-name" maxlength="60" minlength="1" />
         <span class="error" aria-live="polite"></span>
     </label>
 
     <label for="phone">
         telefoon nummer
-        <input type="tel" name="phone" id="phone" required placeholder="06-12345678" pattern="(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{10}$)" required maxlength="20" minlength="1" />
+        <input type="tel" name="phone" id="phone" required placeholder="06-12345678" pattern="(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{10}$)" maxlength="20" minlength="1" />
         <span class="error" aria-live="polite"></span>
     </label>
 
     <label for="email">
         e-mail
-        <input type="email" name="email" id="email" required placeholder="john-doe@mail.com" autocomplete="email" required maxlength="80" minlength="8" />
+        <input type="email" name="email" id="email" required placeholder="john-doe@mail.com" autocomplete="email" maxlength="80" minlength="8" />
         <span class="error" aria-live="polite"></span>
     </label>
 
@@ -50,7 +50,6 @@
 
 
     <button id="sendButton">
-        <link rel="stylesheet" href="~/css/sendButton.css" asp-append-version="true" />
         <span class="text">verzend</span>
         <span class="sendIcon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
@@ -97,5 +96,6 @@
 <script type="module" src="~/js/scripts/apis/api.js" asp-append-version="true"></script>
 
 <link rel="stylesheet" href="~/css/contact.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/sendButton.css" asp-append-version="true" />
 
 
