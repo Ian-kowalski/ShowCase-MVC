@@ -1,7 +1,8 @@
+using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Net.Mail;
+using MimeKit;
 
 namespace ShowCase_MVC.Controllers
 {
@@ -27,21 +28,26 @@ namespace ShowCase_MVC.Controllers
             string pass = smtp["Password"]!;
             string to = smtp["To"]!;
 
-            var body = $"Van: {request.Firstname} {request.Lastname}\n" +
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress($"{request.Firstname} {request.Lastname}", user));
+            message.To.Add(new MailboxAddress("", to));
+            message.ReplyTo.Add(new MailboxAddress($"{request.Firstname} {request.Lastname}", request.Email));
+            message.Subject = request.Subject;
+            message.Body = new TextPart("plain")
+            {
+                Text = $"Van: {request.Firstname} {request.Lastname}\n" +
                        $"E-mail: {request.Email}\n" +
                        $"Telefoon: {request.Phone}\n\n" +
-                       $"{request.Message}";
+                       $"{request.Message}"
+            };
 
             try
             {
-                using var client = new SmtpClient(host, port)
-                {
-                    Credentials = new NetworkCredential(user, pass),
-                    EnableSsl = true
-                };
-                var mail = new MailMessage(user, to, request.Subject, body);
-                mail.ReplyToList.Add(new MailAddress(request.Email, $"{request.Firstname} {request.Lastname}"));
-                await client.SendMailAsync(mail);
+                using var client = new SmtpClient();
+                await client.ConnectAsync(host, port, SecureSocketOptions.StartTls);
+                await client.AuthenticateAsync(user, pass);
+                await client.SendAsync(message);
+                await client.DisconnectAsync(true);
                 return Ok(new { success = true, message = "Bericht verzonden" });
             }
             catch (Exception ex)

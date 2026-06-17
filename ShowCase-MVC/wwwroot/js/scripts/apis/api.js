@@ -132,7 +132,7 @@ sendButton.addEventListener("click", async (event) => {
                     });
                     const result = await response.json();
 
-                    if (result.score > 0.8) {
+                    if (result.score > 0.5) {
                         try {
                             let response = await fetch('/api/Contact', {
                                 method: 'POST',
@@ -157,6 +157,8 @@ sendButton.addEventListener("click", async (event) => {
                         } catch (error) {
                             verzonden(false, "server offline");
                         }
+                    } else {
+                        verzonden(false, "reCAPTCHA verificatie mislukt, probeer opnieuw");
                     }
                 }
                 catch (error) {
