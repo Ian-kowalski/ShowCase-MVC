@@ -6,8 +6,6 @@ on:
     branches: ["**"]
 
 env:
-  SERVER_IP: <server-ip>
-  USERNAME: <username>
   REMOTE_DIRECTORY: <remote-directory>
 
 jobs:
@@ -29,7 +27,7 @@ jobs:
         run: dotnet build --no-restore -c Release
 
       - name: Test
-        run: dotnet test --no-build -c Release
+        run: dotnet test
 
       - name: Publish
         if: github.ref == 'refs/heads/main'
@@ -39,8 +37,8 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ env.SERVER_IP }}
-          username: ${{ env.USERNAME }}
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
           source: publish/
           target: ${{ env.REMOTE_DIRECTORY }}
