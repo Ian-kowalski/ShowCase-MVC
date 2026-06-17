@@ -23,7 +23,7 @@ public class HomePageTests : BasePageTest
         await Page.GotoAsync(BaseUrl);
 
         var nav = Page.Locator("nav.navbar");
-        await Expect(nav.Locator("a[href='/']")).ToBeVisibleAsync();
+        await Expect(nav.Locator("a[href='/']").First).ToBeVisibleAsync();
         await Expect(nav.Locator("a[href='/Home/Contact']")).ToBeVisibleAsync();
         await Expect(nav.Locator("a[href='/Zeeslag/Start']")).ToBeVisibleAsync();
     }

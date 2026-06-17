@@ -21,7 +21,7 @@ public class AuthTests : BasePageTest
     public async Task LoginPage_HasEmailAndPasswordFields()
     {
         await Page.GotoAsync($"{BaseUrl}/Identity/Account/Login");
-        await Expect(Page.Locator("input[type='email'], input[name='Input.Email']")).ToBeVisibleAsync();
+        await Expect(Page.GetByPlaceholder("name@example.com")).ToBeVisibleAsync();
         await Expect(Page.Locator("input[type='password']")).ToBeVisibleAsync();
     }
 
