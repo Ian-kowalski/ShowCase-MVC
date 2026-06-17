@@ -40,7 +40,7 @@
                 gameBoardElement.addEventListener('gameover', function (e) {
                     startGameButton.style.display = 'none';
                     resetGameButton.style.display = 'inline';
-                    turnIndicator.textContent = e.detail === userName ? '🎉 You won!' : `${e.detail} won!`;
+                    turnIndicator.textContent = e.detail === userName ? '🎉 Jij wint!' : `${e.detail} wint!`;
                 });
 
                 gameBoardElement.addEventListener('gamereset', function () {
@@ -48,7 +48,7 @@
                 });
 
                 gameBoardElement.addEventListener('turnchanged', function (e) {
-                    turnIndicator.textContent = e.detail === userName ? 'Your turn' : `${e.detail}'s turn`;
+                    turnIndicator.textContent = e.detail === userName ? 'Jouw beurt' : `Beurt van ${e.detail}`;
                 });
 
                 startGameButton.addEventListener('click', function () {

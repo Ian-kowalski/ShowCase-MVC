@@ -139,9 +139,14 @@ namespace ShowCase_MVC.Controllers
             gameState.TrackingBoard = JsonConvert.SerializeObject(trackingBoard.Cells);
 
             bool gameOver = !opponentBoard.Cells.Cast<CellState>().Any(c => c == CellState.Ship);
-            if (!gameOver) gameState.CurrentTurnPlayerId = opponentGameState.PlayerId;
+            if (!gameOver)
+            {
+                var nextPlayer = opponentGameState.PlayerId;
+                gameState.CurrentTurnPlayerId = nextPlayer;
+                opponentGameState.CurrentTurnPlayerId = nextPlayer;
+            }
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             await _hubContext.Clients.All.SendAsync("ReceiveMove", userName, x, y, hit);
             if (gameOver) await _hubContext.Clients.All.SendAsync("GameOver", userName);
