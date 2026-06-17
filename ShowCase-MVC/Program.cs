@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using ShowCase_MVC.Data;
 using ShowCase_MVC.Hubs;
+using ShowCase_MVC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var port = Environment.GetEnvironmentVariable("PORT");
@@ -23,6 +25,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 
 builder.Services.AddSignalR();
+builder.Services.AddTransient<IEmailSender, ResendEmailSender>();
 
 var app = builder.Build();
 
