@@ -117,6 +117,12 @@ namespace ShowCase_MVC.Areas.Identity.Pages.Account
                 }
                 if (result.IsNotAllowed)
                 {
+                    var unconfirmed = await _userManager.FindByNameAsync(Input.UserName);
+                    if (unconfirmed != null && !await _userManager.IsEmailConfirmedAsync(unconfirmed))
+                    {
+                        var email = await _userManager.GetEmailAsync(unconfirmed);
+                        return RedirectToPage("RegisterConfirmation", new { email, returnUrl });
+                    }
                     ShowResendConfirmation = true;
                     ModelState.AddModelError(string.Empty, "Please confirm your email before logging in.");
                     return Page();

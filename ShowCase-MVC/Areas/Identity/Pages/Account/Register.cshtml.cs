@@ -115,8 +115,15 @@ namespace ShowCase_MVC.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId, code, returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    try
+                    {
+                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Confirmation email failed for {Email} — continuing to RegisterConfirmation", Input.Email);
+                    }
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
