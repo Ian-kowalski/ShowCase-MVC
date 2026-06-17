@@ -47,5 +47,6 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.MapHub<ChatHub>("/chatHub");
+app.MapHub<GameHub>("/gameHub");
 
 app.Run();

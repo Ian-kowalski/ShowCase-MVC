@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using ShowCase_MVC.Models;
 
 namespace ShowCase_MVC.Data
 {
@@ -9,5 +10,7 @@ namespace ShowCase_MVC.Data
             : base(options)
         {
         }
+
+        public DbSet<GameState> GameStates { get; set; }
     }
 }
