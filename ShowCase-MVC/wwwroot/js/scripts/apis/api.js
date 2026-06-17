@@ -120,7 +120,7 @@ sendButton.addEventListener("click", async (event) => {
             grecaptcha.execute('6LfSDHgpAAAAAK_I_INXeLkkkIhYWS__b4akWAkE', { action: 'submit' }).then(async function (token) {
                 const formSubmit = document.getElementById('submit');
                 try {
-                    const response = await fetch('https://localhost:7078/api/Captcha', {
+                    const response = await fetch('/api/Captcha', {
                         method: "POST",
                         body: JSON.stringify({
                             response: token
@@ -132,9 +132,9 @@ sendButton.addEventListener("click", async (event) => {
                     });
                     const result = await response.json();
 
-                    if (result.score > 0.8) {
+                    if (result.score > 0.5) {
                         try {
-                            let response = await fetch('https://localhost:7078/api/Contact', {
+                            let response = await fetch('/api/Contact', {
                                 method: 'POST',
                                 body: JSON.stringify({
                                     email: email.value,
@@ -157,6 +157,8 @@ sendButton.addEventListener("click", async (event) => {
                         } catch (error) {
                             verzonden(false, "server offline");
                         }
+                    } else {
+                        verzonden(false, "reCAPTCHA verificatie mislukt, probeer opnieuw");
                     }
                 }
                 catch (error) {

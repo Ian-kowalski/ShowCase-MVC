@@ -1,33 +1,8 @@
-﻿
 @{
     ViewData["Title"] = "Lobby";
 }
 
 <style>
-    .lobby-settings {
-        display: flex;
-        align-self: flex-end;
-        gap: 7px;
-        font-size: 11px;
-        font-family: Inter, sans-serif;
-        font-weight: 600;
-        color: #000;
-        text-align: center;
-    }
-
-    .lobby-settings__title {
-        margin: auto 0;
-        flex-grow: 1;
-    }
-
-    .lobby-settings__icon {
-        width: 29px;
-        aspect-ratio: 0.88;
-        object-fit: contain;
-        object-position: center;
-        fill: #d9d9d9;
-    }
-
     .game-lobby {
         display: flex;
         flex-direction: column;
@@ -35,6 +10,7 @@
         max-width: 360px;
         padding: 13px 24px 27px;
         background-color: #fff;
+        margin: 0 auto;
     }
 
     .game-header {
@@ -51,36 +27,40 @@
         font-family: Inter, sans-serif;
     }
 
-    .game-name {
-        margin-top: 4px;
-        font-size: 15px;
-        font-family: Inter, sans-serif;
-    }
-
     .player-section {
         display: flex;
         flex-direction: column;
         align-items: center;
         margin-top: 18px;
-        padding: 16px 80px;
+        padding: 16px 40px;
         border-radius: 16px;
         background-color: #d9d9d9;
-        font-size: 24px;
+        font-size: 20px;
         font-family: Inter, sans-serif;
+        gap: 12px;
     }
 
-    .player-name {
-        font-family: Inter, sans-serif;
+    .player-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .player-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #aaa;
+    }
+
+    .player-dot.connected {
+        background-color: #4caf50;
     }
 
     .player-separator {
-        margin-top: 225px;
         font-family: Inter, sans-serif;
-    }
-
-    .opponent-name {
-        margin-top: 220px;
-        font-family: Inter, sans-serif;
+        font-size: 18px;
+        color: #555;
     }
 
     .start-button {
@@ -97,39 +77,84 @@
         color: #fff;
         font-size: 20px;
         font-family: Inter, sans-serif;
+        border: none;
+        cursor: pointer;
+    }
+
+    .start-button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
     }
 
     .waiting-message {
-        align-self: flex-start;
-        margin-left: 37px;
-        font-size: 11px;
+        align-self: center;
+        margin-top: 8px;
+        font-size: 12px;
         font-family: Inter, sans-serif;
+        color: #666;
     }
 </style>
 
 <section class="game-lobby">
-    <div class="lobby-settings">
-        <h2 class="lobby-settings__title">lobby settings</h2>
-        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/e1ff35c5c24e22a1e754875ce296b30d5c9bb50d146a0599bf5a7a8962939596?apiKey=d6fdb3b4e7b941dfb8db28fec07e9efa&" alt="" class="lobby-settings__icon" />
-    </div>
-
     <header class="game-header">
-        <h1 class="game-title">Game lobby</h1>
-        <p class="game-name">gameName</p>
+        <h1 class="game-title">Game Lobby</h1>
     </header>
 
     <section class="player-section">
-        <p class="player-name">@User.Identity?.Name</p>
-        <p class="player-separator">VS</p>
-        <p class="opponent-name">User name</p>
+        <div class="player-row">
+            <div class="player-dot connected" id="dot1"></div>
+            <span id="player1Name">@User.Identity?.Name</span>
+        </div>
+        <span class="player-separator">VS</span>
+        <div class="player-row">
+            <div class="player-dot" id="dot2"></div>
+            <span id="player2Name">Waiting...</span>
+        </div>
     </section>
 
-    <form class="form-inline" asp-area="" asp-controller="Zeeslag" asp-action="Zeeslag">
-        <button class="start-button">start Game</button
-    </form>
-
-    >
-
-    <p class="waiting-message">waiting for User Name ...</p>
+    <button class="start-button" id="goToGameBtn" disabled>Enter Game</button>
+    <p class="waiting-message" id="waitingMsg">Waiting for opponent to join...</p>
 </section>
 
+@section Scripts {
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/gameHub")
+            .build();
+
+        const player1Name = document.getElementById('player1Name');
+        const player2Name = document.getElementById('player2Name');
+        const dot2 = document.getElementById('dot2');
+        const goToGameBtn = document.getElementById('goToGameBtn');
+        const waitingMsg = document.getElementById('waitingMsg');
+        const currentUser = '@User.Identity?.Name';
+
+        connection.on('UpdatePlayers', (players) => {
+            const list = Array.from(players);
+            if (list[0]) player1Name.textContent = list[0];
+            if (list[1]) {
+                player2Name.textContent = list[1];
+                dot2.classList.add('connected');
+                goToGameBtn.disabled = false;
+                waitingMsg.textContent = 'Both players connected — ready to play!';
+            }
+        });
+
+        connection.on('PlayerJoined', (userId, count) => {
+            if (count >= 2) {
+                dot2.classList.add('connected');
+                goToGameBtn.disabled = false;
+                waitingMsg.textContent = 'Both players connected — ready to play!';
+            }
+        });
+
+        connection.start()
+            .then(() => connection.invoke('RegisterPlayer', currentUser))
+            .catch(err => console.error(err));
+
+        goToGameBtn.addEventListener('click', () => {
+            window.location.href = '/Zeeslag/Game';
+        });
+    </script>
+}
