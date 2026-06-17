@@ -128,6 +128,16 @@ namespace ShowCase_MVC.Areas.Identity.Pages.Account
                         return LocalRedirect(returnUrl);
                     }
                 }
+                // If registration failed due to duplicate username/email and the existing
+                // account is still unconfirmed, send them to the confirmation page so they
+                // can use the on-page link instead of seeing a confusing "already taken" error.
+                var existing = await _userManager.FindByNameAsync(Input.UserName)
+                            ?? await _userManager.FindByEmailAsync(Input.Email);
+                if (existing != null && !await _userManager.IsEmailConfirmedAsync(existing))
+                {
+                    return RedirectToPage("RegisterConfirmation", new { email = await _userManager.GetEmailAsync(existing), returnUrl });
+                }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);

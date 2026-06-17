@@ -1,12 +1,22 @@
 @page
 @model RegisterConfirmationModel
 @{
-    ViewData["Title"] = "Register confirmation";
+    ViewData["Title"] = "Registratie bevestigen";
 }
 
 <h1>@ViewData["Title"]</h1>
 
-<p>
-    We sent a confirmation email to <strong>@Model.Email</strong>. If it does not arrive, use this direct link:
-    <a id="confirm-link" href="@Model.EmailConfirmationUrl">confirm your account</a>
-</p>
+<p>Een bevestigingsmail is verstuurd naar <strong>@Model.Email</strong>.</p>
+
+@if (Model.DisplayConfirmAccountLink)
+{
+    <div class="alert alert-info mt-3" role="alert">
+        <strong>Geen e-mail ontvangen?</strong>
+        Klik op de knop hieronder om je account direct te bevestigen:
+        <div class="mt-2">
+            <a class="btn btn-primary" id="confirm-link" href="@Model.EmailConfirmationUrl">
+                Bevestig mijn account
+            </a>
+        </div>
+    </div>
+}
