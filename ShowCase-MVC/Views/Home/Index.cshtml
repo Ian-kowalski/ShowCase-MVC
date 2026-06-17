@@ -1,69 +1,220 @@
-﻿@{
+@{
     ViewData["Title"] = "Home Page";
 }
-
 
 <div class="personalia">
     <partial name="_personalia" />
 </div>
 
 <section class="profile">
-    <h2 class="profile-__title">profile</h2>
-        <section class="profile-content">
+    <h2 class="profile-__title">profiel</h2>
+    <section class="profile-content">
 
-            <introduction class="profile-content__category">
-                <h3 class="profile-content__category-title">introduction</h3>
+        <div class="profile-content__category">
+            <h3 class="profile-content__category-title">introductie</h3>
+            <p class="profile-content__description">
+                Gedreven HBO-ICT student met brede ervaring in softwareontwikkeling, van embedded systemen tot webapplicaties en game development. Gestructureerd, doelgericht, oplossingsgericht en een betrouwbare teamspeler.
+            </p>
+            <hr>
+        </div>
+
+        <div class="profile-content__category">
+            <h3 class="profile-content__category-title">technische vaardigheden</h3>
+            <ul class="profile-content__skillList">
+                <li class="skill-item">C#</li>
+                <li class="skill-item">Java</li>
+                <li class="skill-item">JavaScript / HTML5</li>
+                <li class="skill-item">SQL</li>
+                <li class="skill-item">Arduino (C++)</li>
+                <li class="skill-item">Unity 2D</li>
+                <li class="skill-item">Git / Azure DevOps</li>
+                <li class="skill-item">Figma / UML</li>
+                <li class="skill-item">ASP.NET Core MVC</li>
+            </ul>
+            <hr>
+        </div>
+
+        <div class="profile-content__category">
+            <h3 class="profile-content__category-title">werkwijze</h3>
+            <ul class="profile-content__skillList">
+                <li class="skill-item">Scrum / Agile</li>
+                <li class="skill-item">CI/CD Pipelines</li>
+                <li class="skill-item">C4 / UML modellering</li>
+                <li class="skill-item">Test-driven development</li>
+            </ul>
+            <hr>
+        </div>
+
+        <div class="profile-content__category">
+            <h3 class="profile-content__category-title">opleiding</h3>
+
+            <div class="profile-content__element">
+                <div class="profile-content__element-header">
+                    <p class="profile-content__title">HBO-ICT</p>
+                    <p class="profile-content__period">sep 2022 – jul 2026</p>
+                </div>
+                <p class="profile-content__institute">Windesheim, Zwolle</p>
+            </div>
+
+            <div class="profile-content__element">
+                <div class="profile-content__element-header">
+                    <p class="profile-content__title">Mechatronica &amp; Robotica</p>
+                    <p class="profile-content__period">aug 2020 – mei 2022</p>
+                </div>
+                <p class="profile-content__institute">Saxion, Enschede</p>
+            </div>
+
+            <div class="profile-content__element">
+                <div class="profile-content__element-header">
+                    <p class="profile-content__title">HAVO</p>
+                    <p class="profile-content__period">aug 2015 – jul 2020</p>
+                </div>
+                <p class="profile-content__institute">RSG Tromp Meesters, Steenwijk</p>
+            </div>
+
+            <hr>
+        </div>
+
+        <div class="profile-content__category">
+            <h3 class="profile-content__category-title">projectervaring</h3>
+
+            <div class="profile-content__element">
+                <div class="profile-content__element-header">
+                    <p class="profile-content__title">Game Developer – Consume Clearly</p>
+                    <p class="profile-content__period">sep 2025 – heden</p>
+                </div>
+                <p class="profile-content__institute">038Games / Windesheim</p>
                 <p class="profile-content__description">
-                    Student ICT aan het Windesheim momenteel in mijn tweede jaar
+                    Ernstig spel over overconsumptie in Unity 2D, in opdracht van Windesheim-onderzoekers.
+                    Verantwoordelijk voor het Game Design Document, vereistenanalyse en technisch ontwerp (C4).
+                    Scrum-team van 6 personen; gametrailer en adviesdocument opgeleverd.
                 </p>
-                <hr>
-            </introduction>
+                <ul class="profile-content__skillList">
+                    <li class="skill-item">Unity 2D</li>
+                    <li class="skill-item">C#</li>
+                    <li class="skill-item">Scrum</li>
+                    <li class="skill-item">C4</li>
+                </ul>
+            </div>
 
-            <skils class="profile-content__category">
-                <h3 class="profile-content__category-title">skils</h3>
+            <div class="profile-content__element">
+                <div class="profile-content__element-header">
+                    <p class="profile-content__title">Game Developer – Error 404: Dungeon.exe Not Found</p>
+                    <p class="profile-content__period">apr – jun 2025</p>
+                </div>
+                <p class="profile-content__institute">Windesheim</p>
                 <p class="profile-content__description">
-                    <ul class="profile-content__skillList">
-                        <li class="skill-item"> c# </li>
-                        <li class="skill-item"> java </li>
-                        <li class="skill-item"> html </li>
-                        <li class="skill-item"> css </li>
-                    </ul>
+                    Volledig speelbare roguelite dungeon crawler in Unity (C#) met procedurele levelgeneratie via een graph rewriting algoritme.
+                    Vijand-AI, val-mechanieken, questsysteem en Unity room editor geïmplementeerd.
+                    Design patterns toegepast: Singleton, State, Strategy, Observer, Object Pooling.
                 </p>
-                <hr>
-            </skils>
+                <ul class="profile-content__skillList">
+                    <li class="skill-item">Unity 2D</li>
+                    <li class="skill-item">C#</li>
+                    <li class="skill-item">Design Patterns</li>
+                    <li class="skill-item">Game AI</li>
+                </ul>
+            </div>
 
-
-            <education class="profile-content__category">           
-                <h3 class="profile-content__category-title">Opleidingen</h3>
-
-                <div class="profile-content__element">
-                    <div class="profile-content__element-header">
-                        <p class="profile-content__title">ICT</p>
-                        <p class="profile-content__period">sep 2022 - nu</p>
-                    </div>
-                    <p class="profile-content__institute">Windesheim, Zwolle</p>
+            <div class="profile-content__element">
+                <div class="profile-content__element-header">
+                    <p class="profile-content__title">Software Developer – OV-Fiets Routeplanner</p>
+                    <p class="profile-content__period">nov 2024 – jan 2025</p>
                 </div>
+                <p class="profile-content__institute">Info Support, Veenendaal – Stageopdracht</p>
+                <p class="profile-content__description">
+                    Webapplicatie voor NS om OV-fietsritten te optimaliseren met automatische routegeneratie via externe routing-API's (OpenRouteService, GraphHopper).
+                    CI/CD pipeline opgezet in Azure DevOps; sprints van 2 weken met on-site reviews.
+                    Team van 7; bijgedragen aan functioneel ontwerp (Figma), technisch ontwerp (C4) en implementatie.
+                </p>
+                <ul class="profile-content__skillList">
+                    <li class="skill-item">Azure DevOps</li>
+                    <li class="skill-item">CI/CD</li>
+                    <li class="skill-item">Figma</li>
+                    <li class="skill-item">C4</li>
+                </ul>
+            </div>
 
-
-                <div class="profile-content__element">
-                    <div class="profile-content__element-header">
-                        <p class="profile-content__title">Havo</p>
-                        <p class="profile-content__period">nov 2016 - mei 2020</p>
-                    </div>
-                    <p class="profile-content__institute">RSG Tromp meesters, Steenwijk</p>
+            <div class="profile-content__element">
+                <div class="profile-content__element-header">
+                    <p class="profile-content__title">Web Developer – Workflow Message Scheduler</p>
+                    <p class="profile-content__period">apr – jun 2024</p>
                 </div>
+                <p class="profile-content__institute">AppsForTableau (infotopics), Hardenberg</p>
+                <p class="profile-content__description">
+                    Uitbreiding van een Tableau-extensie voor dashboardsamenvattingen via Microsoft Teams, Slack en andere platforms via WebHooks.
+                    Verantwoordelijk voor requirements-analyse, functioneel ontwerp en implementatie van configuratieschermen.
+                    Eindbeoordeling bedrijfsmentor: alle criteria (zelfstandigheid, gedrag, flexibiliteit, professionaliteit) beoordeeld als Goed (8/10).
+                </p>
+                <ul class="profile-content__skillList">
+                    <li class="skill-item">JavaScript</li>
+                    <li class="skill-item">WebHooks</li>
+                    <li class="skill-item">Tableau</li>
+                </ul>
+            </div>
 
-                <div class="profile-content__element">
-                    <div class="profile-content__element-header">
-                        <p class="profile-content__title">Mechatronica</p>
-                        <p class="profile-content__period">nov 2020 - mei 2022</p>
-                    </div>
-                    <p class="profile-content__institute">saxion, Enschede</p>
+            <div class="profile-content__element">
+                <div class="profile-content__element-header">
+                    <p class="profile-content__title">Java Developer – Campingbeheersysteem</p>
+                    <p class="profile-content__period">dec 2023 – jan 2024</p>
                 </div>
+                <p class="profile-content__institute">Windesheim</p>
+                <p class="profile-content__description">
+                    Fullstack campingsysteem met SQL-database voor reserveringen, beschikbaarheidsfiltering en terreinbeheer; opgeleverd in 3 Scrum-sprints.
+                </p>
+                <ul class="profile-content__skillList">
+                    <li class="skill-item">Java</li>
+                    <li class="skill-item">SQL</li>
+                    <li class="skill-item">Scrum</li>
+                </ul>
+            </div>
 
+            <div class="profile-content__element">
+                <div class="profile-content__element-header">
+                    <p class="profile-content__title">Java &amp; Arduino Developer – Magazijnrobot &amp; HMI</p>
+                    <p class="profile-content__period">feb – jun 2023</p>
+                </div>
+                <p class="profile-content__institute">Windesheim (opdrachtgever: Nerdygadgets)</p>
+                <p class="profile-content__description">
+                    Java HMI-applicatie voor orderbeheer gecombineerd met een fysieke Arduino-robot voor geautomatiseerd orderpicken.
+                    Onderzoek naar het Traveling Salesman Problem voor energiezuinige routeplanning.
+                </p>
+                <ul class="profile-content__skillList">
+                    <li class="skill-item">Java</li>
+                    <li class="skill-item">Arduino (C++)</li>
+                    <li class="skill-item">Algoritmen</li>
+                </ul>
+            </div>
 
-                <hr>
-            </education>
-        </section>
+            <hr>
+        </div>
+
+        <div class="profile-content__category">
+            <h3 class="profile-content__category-title">werkervaring</h3>
+
+            <div class="profile-content__element">
+                <div class="profile-content__element-header">
+                    <p class="profile-content__title">Afwasser</p>
+                    <p class="profile-content__period">aug 2020 – heden</p>
+                </div>
+                <p class="profile-content__institute">Logement &amp; Gasterij Frederiksoord</p>
+                <p class="profile-content__description">
+                    Efficiënte keukenondersteuning in een horecaomgeving; betrouwbaar en flexibel inzetbaar.
+                </p>
+            </div>
+
+            <hr>
+        </div>
+
+        <div class="profile-content__category">
+            <h3 class="profile-content__category-title">talen</h3>
+            <ul class="profile-content__skillList">
+                <li class="skill-item">Nederlands – Moedertaal</li>
+                <li class="skill-item">Engels – Gevorderd</li>
+            </ul>
+        </div>
+
+    </section>
 </section>
+
 <link rel="stylesheet" href="~/css/cv.css" asp-append-version="true" />
