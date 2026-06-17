@@ -46,12 +46,18 @@ public sealed class ResendEmailSender : IEmailSender
             html = htmlMessage
         };
 
-        using var response = await client.PostAsJsonAsync("https://api.resend.com/emails", payload);
-
-        if (!response.IsSuccessStatusCode)
+        try
         {
-            var body = await response.Content.ReadAsStringAsync();
-            _logger.LogError("Resend failed with status {StatusCode}: {Body}", response.StatusCode, body);
+            using var response = await client.PostAsJsonAsync("https://api.resend.com/emails", payload);
+            if (!response.IsSuccessStatusCode)
+            {
+                var body = await response.Content.ReadAsStringAsync();
+                _logger.LogError("Resend failed ({StatusCode}): {Body}", response.StatusCode, body);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to reach Resend API for {Email}", email);
         }
     }
 }
