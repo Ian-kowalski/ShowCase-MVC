@@ -1,8 +1,7 @@
-using MailKit.Net.Smtp;
-using MailKit.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MimeKit;
+using System.Text;
+using System.Text.Json;
 
 namespace ShowCase_MVC.Controllers
 {
@@ -12,43 +11,47 @@ namespace ShowCase_MVC.Controllers
     public class ContactController : ControllerBase
     {
         private readonly IConfiguration _config;
+        private readonly HttpClient _http;
 
-        public ContactController(IConfiguration config)
+        public ContactController(IConfiguration config, IHttpClientFactory factory)
         {
             _config = config;
+            _http = factory.CreateClient();
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] ContactRequest request)
         {
-            var smtp = _config.GetSection("Smtp");
-            string host = smtp["Host"]!;
-            int port = int.Parse(smtp["Port"]!);
-            string user = smtp["Username"]!;
-            string pass = smtp["Password"]!;
-            string to = smtp["To"]!;
+            string apiKey = _config["Resend:ApiKey"]!;
+            string to = _config["Resend:To"]!;
+            string from = _config["Resend:From"]!;
 
-            var message = new MimeMessage();
-            message.From.Add(new MailboxAddress($"{request.Firstname} {request.Lastname}", user));
-            message.To.Add(new MailboxAddress("", to));
-            message.ReplyTo.Add(new MailboxAddress($"{request.Firstname} {request.Lastname}", request.Email));
-            message.Subject = request.Subject;
-            message.Body = new TextPart("plain")
-            {
-                Text = $"Van: {request.Firstname} {request.Lastname}\n" +
+            var body = $"Van: {request.Firstname} {request.Lastname}\n" +
                        $"E-mail: {request.Email}\n" +
                        $"Telefoon: {request.Phone}\n\n" +
-                       $"{request.Message}"
-            };
+                       $"{request.Message}";
+
+            var payload = JsonSerializer.Serialize(new
+            {
+                from,
+                to = new[] { to },
+                reply_to = new[] { $"{request.Firstname} {request.Lastname} <{request.Email}>" },
+                subject = request.Subject,
+                text = body
+            });
 
             try
             {
-                using var client = new SmtpClient();
-                await client.ConnectAsync(host, port, SecureSocketOptions.StartTls);
-                await client.AuthenticateAsync(user, pass);
-                await client.SendAsync(message);
-                await client.DisconnectAsync(true);
-                return Ok(new { success = true, message = "Bericht verzonden" });
+                var req = new HttpRequestMessage(HttpMethod.Post, "https://api.resend.com/emails");
+                req.Headers.Add("Authorization", $"Bearer {apiKey}");
+                req.Content = new StringContent(payload, Encoding.UTF8, "application/json");
+
+                var res = await _http.SendAsync(req);
+                if (res.IsSuccessStatusCode)
+                    return Ok(new { success = true, message = "Bericht verzonden" });
+
+                var err = await res.Content.ReadAsStringAsync();
+                return Ok(new { success = false, message = $"Resend fout: {err}" });
             }
             catch (Exception ex)
             {
