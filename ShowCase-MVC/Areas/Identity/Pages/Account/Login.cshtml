@@ -6,6 +6,10 @@
 }
 
 <h1>@ViewData["Title"]</h1>
+@if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
+{
+    <div class="alert alert-info" role="alert">@Model.StatusMessage</div>
+}
 <div class="row">
     <div class="col-md-4">
         <section>
@@ -41,6 +45,14 @@
                     </p>
                 </div>
             </form>
+
+            @if (Model.ShowResendConfirmation)
+            {
+                <form class="mt-3" method="post" asp-page-handler="ResendConfirmation" asp-route-returnUrl="@Model.ReturnUrl">
+                    <input type="hidden" name="Input.UserName" value="@Model.Input?.UserName" />
+                    <button type="submit" class="btn btn-outline-secondary w-100">Resend confirmation email</button>
+                </form>
+            }
         </section>
     </div>
     <div class="col-md-6 col-md-offset-2">
