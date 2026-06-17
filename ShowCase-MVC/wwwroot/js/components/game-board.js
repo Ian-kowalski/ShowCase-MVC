@@ -2,11 +2,14 @@ class GameBoard extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
-        this.render();
         this.boardsInitialized = false;
         this.userName = '';
         this.currentTurnPlayerId = null;
         this.gameOver = false;
+        this.hitsMade = 0;
+        this.hitsReceived = 0;
+        this.connectionReady = false;
+        this.render();
         this.setupSignalR();
     }
 
@@ -22,8 +25,14 @@ class GameBoard extends HTMLElement {
                     </div>
                 </div>
                 <div id="boardLabels">
-                    <span>Your Board</span>
-                    <span>Tracking Board</span>
+                    <div class="board-label-group">
+                        <span class="board-title">Jouw Bord</span>
+                        <span id="hitsReceived" class="hit-counter">Geraakt: 0/17</span>
+                    </div>
+                    <div class="board-label-group">
+                        <span class="board-title">Tracking Bord</span>
+                        <span id="hitsMade" class="hit-counter">Treffers: 0/17</span>
+                    </div>
                 </div>
                 <div id="boards">
                     <div id="yourBoard" class="board"></div>
@@ -31,41 +40,73 @@ class GameBoard extends HTMLElement {
                 </div>
             </div>
         `;
-
         this.initializeBoards();
         this.initializeChat();
     }
 
     setPlayerInfo(userName) {
         this.userName = userName;
+        if (this.connectionReady) {
+            this.connection.invoke('RegisterPlayer', this.userName).catch(console.error);
+        }
+    }
+
+    // Game cell (x=row, y=col) sits at grid index (x+1)*11 + (y+1) in the 11×11 grid
+    getGameCell(container, x, y) {
+        return container.children[(x + 1) * 11 + (y + 1)];
     }
 
     initializeBoards() {
         if (this.boardsInitialized) return;
 
+        const rowLabels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
         const yourBoard = this.shadowRoot.getElementById('yourBoard');
         const trackingBoard = this.shadowRoot.getElementById('trackingBoard');
 
-        for (let i = 0; i < 100; i++) {
-            const yourCell = document.createElement('div');
-            yourCell.className = 'cell';
-            yourBoard.appendChild(yourCell);
+        const buildBoard = (container, isTracking) => {
+            // Corner cell
+            const corner = document.createElement('div');
+            corner.className = 'label-cell';
+            container.appendChild(corner);
 
-            const trackingCell = document.createElement('div');
-            trackingCell.className = 'cell trackingCell';
-            trackingBoard.appendChild(trackingCell);
+            // Column labels 1–10
+            for (let c = 1; c <= 10; c++) {
+                const label = document.createElement('div');
+                label.className = 'label-cell';
+                label.textContent = c;
+                container.appendChild(label);
+            }
 
-            trackingCell.addEventListener('click', () => {
-                if (this.gameOver) return;
-                if (this.currentTurnPlayerId !== this.userName) {
-                    this.addMessage('System', "It's not your turn.");
-                    return;
+            // Rows
+            for (let r = 0; r < 10; r++) {
+                const rowLabel = document.createElement('div');
+                rowLabel.className = 'label-cell';
+                rowLabel.textContent = rowLabels[r];
+                container.appendChild(rowLabel);
+
+                for (let c = 0; c < 10; c++) {
+                    const cell = document.createElement('div');
+                    cell.className = isTracking ? 'cell trackingCell' : 'cell';
+                    container.appendChild(cell);
+
+                    if (isTracking) {
+                        const x = r, y = c;
+                        cell.addEventListener('click', () => {
+                            if (this.gameOver) return;
+                            if (this.currentTurnPlayerId !== this.userName) {
+                                this.addMessage('Systeem', 'Niet jouw beurt.');
+                                return;
+                            }
+                            if (cell.classList.contains('hit') || cell.classList.contains('miss')) return;
+                            this.makeMove(x, y);
+                        });
+                    }
                 }
-                const x = Math.floor(i / 10);
-                const y = i % 10;
-                this.makeMove(x, y);
-            });
-        }
+            }
+        };
+
+        buildBoard(yourBoard, false);
+        buildBoard(trackingBoard, true);
 
         this.boardsInitialized = true;
     }
@@ -103,24 +144,27 @@ class GameBoard extends HTMLElement {
 
         if (!PlayerBoard || !TrackingBoard) return;
 
-        [...yourBoard.children].forEach((cell, index) => {
-            const x = Math.floor(index / 10);
-            const y = index % 10;
-            const state = PlayerBoard[x][y];
-            cell.className = 'cell';
-            if (state === 1) cell.classList.add('ship');
-            if (state === 2) cell.classList.add('hit');
-            if (state === 3) cell.classList.add('miss');
-        });
+        this.hitsMade = 0;
+        this.hitsReceived = 0;
 
-        [...trackingBoard.children].forEach((cell, index) => {
-            const x = Math.floor(index / 10);
-            const y = index % 10;
-            const state = TrackingBoard[x][y];
-            cell.className = 'cell trackingCell';
-            if (state === 2) cell.classList.add('hit');
-            if (state === 3) cell.classList.add('miss');
-        });
+        for (let r = 0; r < 10; r++) {
+            for (let c = 0; c < 10; c++) {
+                const playerCell = this.getGameCell(yourBoard, r, c);
+                const state = PlayerBoard[r][c];
+                playerCell.className = 'cell';
+                if (state === 1) playerCell.classList.add('ship');
+                if (state === 2) { playerCell.classList.add('hit'); this.hitsReceived++; }
+                if (state === 3) playerCell.classList.add('miss');
+
+                const trackCell = this.getGameCell(trackingBoard, r, c);
+                const tState = TrackingBoard[r][c];
+                trackCell.className = 'cell trackingCell';
+                if (tState === 2) { trackCell.classList.add('hit'); this.hitsMade++; }
+                if (tState === 3) trackCell.classList.add('miss');
+            }
+        }
+
+        this.updateCounters();
 
         if (CurrentTurnPlayerId) {
             this.currentTurnPlayerId = CurrentTurnPlayerId;
@@ -129,20 +173,27 @@ class GameBoard extends HTMLElement {
 
     updateTrackingCell(x, y, hit) {
         const trackingBoard = this.shadowRoot.getElementById('trackingBoard');
-        const index = x * 10 + y;
-        const cell = trackingBoard.children[index];
+        const cell = this.getGameCell(trackingBoard, x, y);
         if (!cell) return;
         cell.className = 'cell trackingCell';
         cell.classList.add(hit ? 'hit' : 'miss');
+        if (hit) { this.hitsMade++; this.updateCounters(); }
     }
 
     updatePlayerCell(x, y, hit) {
         const yourBoard = this.shadowRoot.getElementById('yourBoard');
-        const index = x * 10 + y;
-        const cell = yourBoard.children[index];
+        const cell = this.getGameCell(yourBoard, x, y);
         if (!cell) return;
         cell.className = 'cell';
         cell.classList.add(hit ? 'hit' : 'miss');
+        if (hit) { this.hitsReceived++; this.updateCounters(); }
+    }
+
+    updateCounters() {
+        const hitsMadeEl = this.shadowRoot.getElementById('hitsMade');
+        const hitsReceivedEl = this.shadowRoot.getElementById('hitsReceived');
+        if (hitsMadeEl) hitsMadeEl.textContent = `Treffers: ${this.hitsMade}/17`;
+        if (hitsReceivedEl) hitsReceivedEl.textContent = `Geraakt: ${this.hitsReceived}/17`;
     }
 
     setupSignalR() {
@@ -152,8 +203,10 @@ class GameBoard extends HTMLElement {
 
         this.connection.start()
             .then(() => {
-                this.connection.invoke('RegisterPlayer', this.userName)
-                    .catch(err => console.error(err));
+                this.connectionReady = true;
+                if (this.userName) {
+                    this.connection.invoke('RegisterPlayer', this.userName).catch(console.error);
+                }
             })
             .catch(err => console.error(err));
 
@@ -170,7 +223,6 @@ class GameBoard extends HTMLElement {
             this.dispatchEvent(new CustomEvent('turnchanged', { detail: playerId, bubbles: true }));
         });
 
-        // ReceiveMove fires for all clients — check if it's our move or opponent's
         this.connection.on('ReceiveMove', (user, x, y, hit) => {
             if (user === this.userName) {
                 this.updateTrackingCell(x, y, hit);
@@ -181,7 +233,7 @@ class GameBoard extends HTMLElement {
 
         this.connection.on('GameOver', (winner) => {
             this.gameOver = true;
-            this.addMessage('System', winner === this.userName ? '🎉 You won!' : `${winner} won!`);
+            this.addMessage('Systeem', winner === this.userName ? '🎉 Jij wint!' : `${winner} wint!`);
             this.dispatchEvent(new CustomEvent('gameover', { detail: winner, bubbles: true }));
         });
 

@@ -137,8 +137,10 @@ namespace ShowCase_MVC.Hubs
 
             if (!gameOver)
             {
-                gameState.CurrentTurnPlayerId = opponentGameState.PlayerId;
-                CurrentTurnPlayerId = opponentGameState.PlayerId;
+                var nextPlayer = opponentGameState.PlayerId;
+                gameState.CurrentTurnPlayerId = nextPlayer;
+                opponentGameState.CurrentTurnPlayerId = nextPlayer;
+                CurrentTurnPlayerId = nextPlayer;
             }
 
             await _context.SaveChangesAsync();
